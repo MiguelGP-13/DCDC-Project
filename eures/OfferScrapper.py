@@ -6,6 +6,26 @@ import glob
 import csv
 import os
 
+from datetime import datetime
+
+def parse_fecha_limite(dia, mes_texto, anio):
+    # Construimos un string tipo "24 octubre 2025"
+    fecha_str = f"{dia} {mes_texto} {anio}"
+    # Parseamos con strptime (en español funciona si tu locale está en es_ES)
+    try:
+        fecha = datetime.strptime(fecha_str, "%d %B %Y")
+        return fecha.strftime("%d/%m/%Y")
+    except ValueError:
+        # Si falla porque el locale no reconoce el mes, puedes mapearlo manualmente
+        meses = {
+            "enero": "01", "febrero": "02", "marzo": "03", "abril": "04",
+            "mayo": "05", "junio": "06", "julio": "07", "agosto": "08",
+            "septiembre": "09", "octubre": "10", "noviembre": "11", "diciembre": "12"
+        }
+        mes_num = meses.get(mes_texto.lower(), "01")
+        return f"{dia}/{mes_num}/{anio}"
+
+
 def log_fallida(url):
     with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "ofertas", f"fallidas.txt"), "a", encoding="utf-8") as f:
         f.write(url + "\n")
@@ -14,10 +34,14 @@ def append_to_csv(data, archivo_csv):
     campos = [
         "url",
         "fecha_publicacion",
+        "fecha_limite",
         "titulo",
         "empresa",
+        "ocupacion",
+        "educacion",
         "descripcion",
-        "ubicacion",
+        "pais",
+        "region",
         "duracion_jornada",
         "tipo_contrato"
     ]
@@ -74,17 +98,33 @@ def scrape_offer(url):
             except:
                 return None
 
-        data["fecha_publicacion"] = safe_text("jv-lastModificationDate")
+        # Fecha: primero intenta el id normal, si no, prueba el alternativo
+        fecha = safe_text("jv-lastModificationDate")
+        if not fecha:
+            fecha = safe_text("jv-lastModificationDate-no-title")
+
+        data["fecha_publicacion"] = fecha
         data["titulo"] = safe_text("jv-title")
         data["empresa"] = safe_text("jv-details-employer-name")
         data["descripcion"] = safe_text("jv-details-job-description")
-        data["ubicacion"] = safe_text("jv-address-country", by="class")
+        data["pais"] = safe_text("jv-address-country", by="class")
+        data["region"] = safe_text("jv-address-region", by="class")
         data["duracion_jornada"] = safe_text("jv-position-schedule-result-0")
         data["tipo_contrato"] = safe_text("jv-position-type-code-result")
+        data["ocupacion"] = safe_text("jv-job-categories-codes-result-0")
+        data["educacion"] = safe_text("ecl-description-list__definition", by="class")
+
+        try:
+            dia = page.locator(".ecl-date-block__day").first.inner_text().strip()
+            mes = page.locator(".ecl-date-block__month").first.get_attribute("title").strip()
+            anio = page.locator(".ecl-date-block__year").first.inner_text().strip()
+            data["fecha_limite"] = parse_fecha_limite(dia, mes, anio)
+        except:
+            data["fecha_limite"] = None
+
 
         browser.close()
 
-    # print(f"[✓] Scraped: {data['titulo']}")
     return data
 
 
@@ -117,7 +157,6 @@ def scrape_batch(urls, batch_size=3, sleep_time=2.5):
 
 
 if __name__ == "__main__":
-    from datetime import datetime
 
     inicio = datetime.now()
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -125,9 +164,9 @@ if __name__ == "__main__":
     links_path = os.path.join(script_dir, "links")
     file_path = os.path.join(script_dir, "ofertas", f"ofertas{timestamp}.csv")
     leidos_path = os.path.join(script_dir, "ofertas", f"leidas.txt")
-    print("Starting\n\n")
+    print("Starting")
     for i, urls in enumerate(cargar_urls_por_bloques(links_path, 100)):
-        print(f"\rProcesando bloque {i + 1} con {len(urls)} URLs", end="")
+        print(f"Procesando bloque {i + 1} con {len(urls)} URLs", end="")
 
         resultados = scrape_batch([clean_language(url) for url in urls], batch_size=50, sleep_time=0.25)
         for data in resultados:
@@ -135,3 +174,8 @@ if __name__ == "__main__":
         
         with open(leidos_path, "a") as f:
             f.writelines([url + "\n" for url in urls])
+    
+    fin = datetime.now()
+    duracion = fin - inicio
+    print("Finalizado!")
+    print(f"Duración en segundos: {duracion.total_seconds()}")

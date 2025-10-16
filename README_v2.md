@@ -127,12 +127,12 @@ El procesamiento, normalización y compilación de esta versión se se distribuy
 
 En consecuencia, el uso de los datos originales deberá respetar las condiciones de reutilización de la Comisión Europea.
 
-
 **Atribución requerida:**
 > Álvaro Felipe, Miguel Gómez, Alex Pérez (2025). *Ofertas de Empleo Públicas en España (EURES, 2025)*. Universidad Politécnica de Madrid. Licencia CC BY 4.0.
 
 En caso de reutilizar o redistribuir el dataset, por favor menciona la fuente y los autores en la forma indicada en la sección de *Citation*.
 
+Los datos originales del portal EURES se encuentran disponibles en https://ec.europa.eu/eures
 ---
 
 ## Citation

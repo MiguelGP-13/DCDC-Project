@@ -121,8 +121,12 @@ Responsables de mantenimiento y contacto:
 
 ## License
 
-Este dataset se distribuye bajo la licencia **Creative Commons Attribution 4.0 International (CC BY 4.0)**.  
-Puedes copiar, redistribuir y adaptar el contenido siempre que se otorgue el crédito adecuado a los autores y se indique si se realizaron cambios.
+Este dataset deriva de datos abiertos del portal EURES, gestionado por la Comisión Europea y la European Labour Authority (ELA), bajo los términos de la Decision 2011/833/EU on the reuse of Commission documents.
+
+El procesamiento, normalización y compilación de esta versión se se distribuye bajo la licencia **Creative Commons Attribution 4.0 International (CC BY 4.0)**. 
+
+En consecuencia, el uso de los datos originales deberá respetar las condiciones de reutilización de la Comisión Europea.
+
 
 **Atribución requerida:**
 > Álvaro Felipe, Miguel Gómez, Alex Pérez (2025). *Ofertas de Empleo Públicas en España (EURES, 2025)*. Universidad Politécnica de Madrid. Licencia CC BY 4.0.

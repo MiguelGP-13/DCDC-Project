@@ -1,15 +1,46 @@
+---
+pretty_name: Ofertas de Empleo Públicas en España (EURES, 2025)
+license: cc-by-4.0
+language:
+- es
+task_categories:
+- text-classification
+- sentence-similarity
+tags:
+- empleo
+- mercado-laboral
+- scraping
+- datos-abiertos
+- mineria-texto
+size_categories:
+- 1K<n<10K
+dataset_info:
+  description: >
+    Este dataset recopila ofertas de empleo publicadas en portales oficiales de
+    empleo europeos y españoles, principalmente a través de la red EURES. Fue
+    desarrollado como parte de un proyecto académico en la Universidad
+    Politécnica de Madrid (UPM) y está destinado al análisis del mercado
+    laboral, minería de texto y aprendizaje automático sobre descripciones de
+    empleo públicas.
+  citation: >
+    Álvaro Felipe, Miguel Gómez, Alex Pérez (2025). Ofertas de Empleo Públicas
+    en España (EURES, 2025) [Dataset]. Universidad Politécnica de Madrid.
+    Disponible en Hugging Face Datasets. Licencia CC BY 4.0.
+---
+
 # Ofertas de Empleo Públicas en España (EURES, 2025)
+
+https://doi.org/10.57967/hf/6740
 
 ## Dataset Summary
 
 Este dataset recopila ofertas de empleo publicadas en portales oficiales de empleo europeos y españoles, principalmente a través de la red **EURES (European Employment Services)**.  
-Forma parte del proyecto desarrollado para la práctica de la **Universidad Politécnica de Madrid (UPM)** en la asignatura *Descubrimiento del Conocimiento en Datos Complejos*.  
+Forma parte del proyecto desarrollado para una práctica en la asignatura *Descubrimiento del Conocimiento en Datos Complejos* del grado de Ciencia de Datos e Inteligencia Artificial en la Universidad Politécnica de Madrid (UPM).  
 
 El dataset tiene como propósito servir como fuente de información para análisis del mercado laboral, extracción de información, y aplicaciones de minería de texto o aprendizaje automático sobre descripciones de empleo públicas.  
 
 Los datos proceden íntegramente de fuentes **públicas y abiertas** bajo políticas de datos abiertos gubernamentales.
-
-El **Rango temporal de los datos** abarca desde el 10 de octubre de 2025 hasta el 26 de octubre de 2026, pero los datos están más concentrados entre octubre, noviembre, diciembre y enero.
+El **Rango temporal de los datos** abarca desde el 10 de octubre de 2025 hasta el 26 de octubre de 2026.
 
 ---
 
@@ -30,7 +61,7 @@ El dataset se encuentra disponible en formato **CSV UTF-8**. Puede cargarse dire
 ```python
 import pandas as pd
 
-df = pd.read_csv("empleos_espanoles_eures_2025.csv")
+df = pd.read_parquet("data/empleos-espanoles-eures-2025.parquet")
 print(df.head())
 ```
 
@@ -58,7 +89,7 @@ ds = load_dataset("MiguelGP-13/empleos-espanoles-eures-2025")
 | `region` | Comunidad autónoma o provincia | string |
 | `tipo_contrato` | Tipo de contrato o modalidad laboral | string |
 
-Formato de archivo: `CSV UTF-8`  
+Formato de archivo: `PARQUET UTF-8`  
 Número estimado de registros: variable (según fecha de ejecución del scraper).  
 Frecuencia de actualización: única (los scripts permiten obtener datos actualizados en futuras ejecuciones).
 
@@ -104,7 +135,7 @@ El dataset fue sometido a un proceso de limpieza y estandarización que incluyó
 - Renombrado de la columna `region` a `provincia`
 
 #### Exportación final
-- Generación del archivo final en formato CSV UTF-8, listo para su publicación
+- Generación del archivo final en formato PARQUET UTF-8, listo para su publicación
 
 ---
 
@@ -155,5 +186,5 @@ Agradecimientos a las instituciones europeas y españolas que mantienen polític
 
 ---
 
-*Última actualización: 15 de octubre de 2025*  
+*Última actualización: 17 de octubre de 2025*  
 *Versión: 1.0*

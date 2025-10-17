@@ -8,6 +8,7 @@ Forma parte del proyecto desarrollado para la práctica de la **Universidad Poli
 El dataset tiene como propósito servir como fuente de información para análisis del mercado laboral, extracción de información, y aplicaciones de minería de texto o aprendizaje automático sobre descripciones de empleo públicas.  
 
 Los datos proceden íntegramente de fuentes **públicas y abiertas** bajo políticas de datos abiertos gubernamentales.
+El **Rango temporal de los datos** abarca desde el 10 de octubre de 2025 hasta el 26 de octubre de 2026.
 
 ---
 
@@ -59,13 +60,6 @@ ds = load_dataset("MiguelGP-13/empleos-espanoles-eures-2025")
 Formato de archivo: `CSV UTF-8`  
 Número estimado de registros: variable (según fecha de ejecución del scraper).  
 Frecuencia de actualización: única (los scripts permiten obtener datos actualizados en futuras ejecuciones).
-
----
-
-#### Data coverage
-#### Data coverage
-**Rango temporal de los datos:** desde el 10 de octubre de 2025 hasta el 26 de octubre de 2026  
-*(la penúltima oferta corresponde al 21 de marzo de 2026 y la última al 26 de octubre de 2026)*
 
 ---
 

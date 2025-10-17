@@ -130,11 +130,12 @@ Si utiliza este dataset en publicaciones académicas o proyectos derivados, se r
 ## Acknowledgements
 
 Los datos originales provienen de portales de empleo **oficiales y públicos**, principalmente de la red **EURES** y sus integraciones autonómicas.  
-Agradecimientos a las instituciones europeas y españolas que mantienen políticas de datos abiertos, y a la comunidad de código abierto por las herramientas utilizadas, en particular:
+Agradecimientos a las instituciones europeas y españolas que mantienen políticas de datos abiertos, a nuestro profesor Carlos Badenes y a la comunidad de código abierto por las herramientas utilizadas, en particular:
 
 - [Playwright](https://playwright.dev/) – automatización de navegación web.  
 - [Pandas](https://pandas.pydata.org/) – procesamiento y análisis de datos.  
 - [Hugging Face Datasets](https://huggingface.co/docs/datasets) – publicación y distribución abierta de datasets.  
+
 
 ---
 

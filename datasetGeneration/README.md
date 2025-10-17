@@ -8,7 +8,8 @@ Forma parte del proyecto desarrollado para la práctica de la **Universidad Poli
 El dataset tiene como propósito servir como fuente de información para análisis del mercado laboral, extracción de información, y aplicaciones de minería de texto o aprendizaje automático sobre descripciones de empleo públicas.  
 
 Los datos proceden íntegramente de fuentes **públicas y abiertas** bajo políticas de datos abiertos gubernamentales.
-El **Rango temporal de los datos** abarca desde el 10 de octubre de 2025 hasta el 26 de octubre de 2026.
+
+El **Rango temporal de los datos** abarca desde el 10 de octubre de 2025 hasta el 26 de octubre de 2026, pero los datos están más concentrados entre octubre, noviembre, diciembre y enero.
 
 ---
 

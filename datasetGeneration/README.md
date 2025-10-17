@@ -2,30 +2,58 @@
 pretty_name: Ofertas de Empleo Públicas en España (EURES, 2025)
 license: cc-by-4.0
 language:
-- es
+  - es
 task_categories:
-- text-classification
-- sentence-similarity
+  - text-classification
+  - sentence-similarity
 tags:
-- empleo
-- mercado-laboral
-- scraping
-- datos-abiertos
-- mineria-texto
+  - empleo
+  - mercado-laboral
+  - scraping
+  - datos-abiertos
+  - mineria-texto
 size_categories:
-- 1K<n<10K
+  - 1K<n<10K
+
 dataset_info:
-  description: >
-    Este dataset recopila ofertas de empleo publicadas en portales oficiales de
-    empleo europeos y españoles, principalmente a través de la red EURES. Fue
-    desarrollado como parte de un proyecto académico en la Universidad
-    Politécnica de Madrid (UPM) y está destinado al análisis del mercado
-    laboral, minería de texto y aprendizaje automático sobre descripciones de
-    empleo públicas.
-  citation: >
-    Álvaro Felipe, Miguel Gómez, Alex Pérez (2025). Ofertas de Empleo Públicas
-    en España (EURES, 2025) [Dataset]. Universidad Politécnica de Madrid.
-    Disponible en Hugging Face Datasets. Licencia CC BY 4.0.
+  - config_name: empleos
+    description: >
+      Este dataset recopila ofertas de empleo publicadas en portales oficiales de
+      empleo europeos y españoles, principalmente a través de la red EURES. Fue
+      desarrollado como parte de un proyecto académico y está destinado al análisis del mercado
+      laboral, minería de texto y aprendizaje automático sobre descripciones de
+      empleo públicas.
+    citation: >
+      Álvaro Felipe, Miguel Gómez, Alex Pérez (2025). Ofertas de Empleo Públicas
+      en España (EURES, 2025) [Dataset]. Universidad Politécnica de Madrid.
+      Disponible en Hugging Face Datasets. Licencia CC BY 4.0.
+    features:
+      - name: id
+        dtype: string
+      - name: timestamp
+        dtype: string
+      - name: titulo
+        dtype: string
+      - name: ocupacion
+        dtype: string
+      - name: descripcion
+        dtype: string
+      - name: provincia
+        dtype: string        
+      - name: tipo_contrato
+        dtype: string
+    splits:
+      - name: empleos
+        num_bytes: 7121706
+        num_examples: 7264
+    download_size: 0
+    dataset_size: 0
+
+configs:
+  - config_name: empleos
+    data_files:
+      - split: empleos
+        path: empleos-espanoles-eures-2025.parquet
 ---
 
 # Ofertas de Empleo Públicas en España (EURES, 2025)
@@ -49,27 +77,20 @@ El **Rango temporal de los datos** abarca desde el 10 de octubre de 2025 hasta e
 **Versión 1.0 – Octubre 2025**
 - Primera versión del dataset.
 - Datos extraídos de portales oficiales mediante scrapers basados en Playwright.
-- Limpieza, normalización y exportación final en formato CSV.
+- Limpieza, normalización y exportación final en formato PARQUET.
 
 ---
 
 ## How to use
 
-El dataset se encuentra disponible en formato **CSV UTF-8**. Puede cargarse directamente en entornos de análisis de datos.
-
-### Ejemplo en Python
-```python
-import pandas as pd
-
-df = pd.read_parquet("data/empleos-espanoles-eures-2025.parquet")
-print(df.head())
-```
+El dataset se encuentra disponible en formato **PARQUET UTF-8**. Puede cargarse directamente en entornos de análisis de datos.
 
 ### Ejemplo con Hugging Face Datasets
 ```python
 from datasets import load_dataset
 
-ds = load_dataset("MiguelGP-13/empleos-espanoles-eures-2025")
+ds = load_dataset("MiguelGP-13/JobOffers_ESP", split="empleos")
+df = ds.to_pandas()
 ```
 
 ---
@@ -79,18 +100,15 @@ ds = load_dataset("MiguelGP-13/empleos-espanoles-eures-2025")
 | Campo | Descripción | Tipo |
 |--------|--------------|------|
 | `url` | Enlace a la oferta original en el portal EURES o fuente autonómica oficial | string |
-| `fecha_publicacion` | Fecha de publicación de la oferta (DD/MM/AAAA) | date |
-| `fecha_limite` | Fecha límite para postular | date |
+| `timestamp` | Fecha límite para postular | date |
 | `titulo` | Título del puesto ofertado | string |
-| `empresa` | Nombre de la empresa o entidad contratante (si está disponible) | string |
 | `ocupacion` | Ocupación o categoría profesional principal | string |
 | `descripcion` | Descripción textual completa del puesto (sin datos personales) | string |
-| `pais` | País de la oferta | string |
-| `region` | Comunidad autónoma o provincia | string |
+| `provincia` | Comunidad autónoma o provincia | string |
 | `tipo_contrato` | Tipo de contrato o modalidad laboral | string |
 
 Formato de archivo: `PARQUET UTF-8`  
-Número estimado de registros: variable (según fecha de ejecución del scraper).  
+Número de registros: 7264. 
 Frecuencia de actualización: única (los scripts permiten obtener datos actualizados en futuras ejecuciones).
 
 ---
@@ -104,7 +122,7 @@ Se accedió de manera automatizada a las ofertas publicadas en el portal **EURES
 1. Obtención de listados de URLs de ofertas a partir de buscadores públicos de empleo.
 2. Acceso controlado a cada página con Playwright, respetando límites de concurrencia y tiempos de espera para evitar sobrecarga.
 3. Extracción de información mediante selectores identificados (`id` y `class`) en la estructura HTML.
-4. Registro de cada oferta en formato tabular (`.csv`), garantizando que los campos principales estén completos.
+4. Registro de cada oferta en formato tabular (`.parquet`), garantizando que los campos principales estén completos.
 
 Todos los datos proceden de fuentes públicas de libre acceso, sin necesidad de autenticación ni recopilación de información personal.
 

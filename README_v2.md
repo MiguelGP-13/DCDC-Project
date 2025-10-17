@@ -22,7 +22,7 @@ Los datos proceden íntegramente de fuentes **públicas y abiertas** bajo polít
 
 ## How to use
 
-El dataset se encuentra disponible en formato **CSV UTF-8**. Puede cargarse directamente en entornos de análisis de datos (Python, R, Excel, etc.).
+El dataset se encuentra disponible en formato **CSV UTF-8**. Puede cargarse directamente en entornos de análisis de datos.
 
 ### Ejemplo en Python
 ```python
@@ -41,8 +41,6 @@ print(ds['train'][0])
 ```
 
 ---
-
-## Dataset Details
 
 ### Data Structure
 
@@ -65,17 +63,6 @@ Frecuencia de actualización: única (los scripts permiten obtener datos actuali
 
 ---
 
-### Data Preview
-
-Ejemplo de los primeros registros:
-
-| url | fecha_publicacion | fecha_limite | titulo | empresa | ocupacion | descripcion | pais | region | tipo_contrato |
-|-----|-------------------|---------------|---------|----------|------------|--------------|-------|----------|----------------|
-| https://europa.eu/eures/portal/jv-se/jv-details/NzE4NDAzMCAxMDI?lang=es | 10/10/2025 | 31/10/2025 | CONDUCTORES DE CAMIÓN, EN GENERAL |  | Conductor de vehículo de carga | REQUIERE ESTAR EN POSESIÓN DEL CAP... | España | Palencia | Contrato |
-| https://europa.eu/eures/portal/jv-se/jv-details/NzIyMDEwMCAxMDI?lang=es | 10/10/2025 | 10/10/2025 | WORK/LOCATION |  | Empleado administrativo de archivos | ES BUSCA UNA PERSONA AMB ESTUDIS... | España | Tarragona | Contrato |
-
----
-
 ### Data Collection
 
 Los datos fueron recolectados mediante **scripts de scraping** desarrollados en Python utilizando la librería **Playwright**.  
@@ -93,24 +80,20 @@ Todos los datos proceden de fuentes públicas de libre acceso, sin necesidad de 
 
 ### Data Processing
 
-Tras la obtención inicial, se realizó un preprocesamiento y estandarización a través de un cuaderno (notebook) de limpieza.  
+Tras la obtención inicial, se realizó un preprocesamiento y estandarización a través de un cuaderno de limpieza.  
 Las transformaciones incluyeron:
 
 - **Normalización de fechas** al formato `DD/MM/AAAA`.  
 - **Eliminación de caracteres HTML**, saltos de línea y espacios redundantes en las descripciones.  
-- **Anonimización de datos personales** (se eliminaron contactos, correos o nombres propios presentes en los textos).  
+- **Anonimización de datos personales** (se eliminaron correos y teléfonos presentes en los textos).  
 - **Verificación de duplicados** mediante la columna `url`.  
-- **Filtrado y validación de campos** obligatorios (`titulo`, `pais`, `region`, `tipo_contrato`).  
 - **Exportación final a CSV UTF-8**, listo para su publicación.
-
-El cuaderno de procesamiento acompaña al dataset para permitir la replicación del flujo completo de recolección y limpieza.
 
 ---
 
 ### Data Maintenance
 
 Este dataset es una **recopilación única (snapshot)** de ofertas publicadas durante octubre de 2025.  
-No se prevé su actualización periódica, aunque los **scripts de scraping y limpieza** incluidos permiten reproducir el proceso en cualquier momento para obtener datos más recientes.
 
 Responsables de mantenimiento y contacto:
 - Álvaro Felipe – alvaro.felipe@alumnos.upm.es  

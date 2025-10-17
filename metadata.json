@@ -1,0 +1,73 @@
+{
+  "title": "Ofertas de Empleo Públicas en España (EURES, 2025)",
+  "description": "Este dataset recopila ofertas de empleo publicadas en portales oficiales de empleo europeos y españoles, principalmente a través de la red EURES. Fue desarrollado como parte de un proyecto académico en la Universidad Politécnica de Madrid (UPM) y está destinado al análisis del mercado laboral, minería de texto y aprendizaje automático sobre descripciones de empleo públicas.",
+  "version": "1.0",
+  "last_updated": "2025-10-15",
+  "license": "CC BY 4.0",
+  "citation": "Álvaro Felipe, Miguel Gómez, Alex Pérez (2025). Ofertas de Empleo Públicas en España (EURES, 2025) [Dataset]. Universidad Politécnica de Madrid. Disponible en Hugging Face Datasets. Licencia CC BY 4.0.",
+  "creators": [
+    {
+      "name": "Álvaro Felipe",
+      "email": "alvaro.felipe@alumnos.upm.es"
+    },
+    {
+      "name": "Miguel Gómez",
+      "email": "miguel.gprieto@alumnos.upm.es"
+    },
+    {
+      "name": "Alex Pérez",
+      "email": "alex.pcarpente@alumnos.upm.es"
+    }
+  ],
+  "language": ["es"],
+  "source": "https://europa.eu/eures/portal/jv-se/home?lang=es",
+  "data_format": "CSV UTF-8",
+  "features": {
+    "url": "string",
+    "fecha_publicacion": "date",
+    "fecha_limite": "date",
+    "titulo": "string",
+    "empresa": "string",
+    "ocupacion": "string",
+    "descripcion": "string",
+    "pais": "string",
+    "region": "string",
+    "tipo_contrato": "string"
+  },
+  "collection_method": {
+    "type": "web scraping",
+    "tools": ["Playwright", "Python"],
+    "notes": "Extracción automatizada desde portales públicos de empleo europeos y autonómicos. Se respetaron límites de concurrencia y tiempos de espera."
+  },
+  "processing": {
+  "steps": [
+    "Normalización de fechas al formato DD/MM/AAAA",
+    "Eliminación de caracteres HTML, saltos de línea y espacios redundantes en las descripciones",
+    "Anonimización de datos personales (correos electrónicos y teléfonos)",
+    "Verificación y eliminación de duplicados mediante la columna 'url'",
+    "Eliminación de anuncios que no están en español",
+    "Eliminación de columnas con datos mal obtenidos, nulos o irrelevantes ('educación', 'empresa', 'fecha_publicacion', 'duración de jornada')",
+    "Eliminación de ofertas sin fecha límite de solicitud",
+    "Conversión del archivo a codificación UTF-8 y limpieza de saltos de línea",
+    "Traducción de textos en catalán al castellano",
+    "Relleno de provincias vacías a partir del contenido de la descripción",
+    "Renombrado de la columna 'region' a 'provincia'",
+    "Exportación final a CSV UTF-8 listo para su publicación"
+  ]
+},
+  "distribution": {
+    "platform": "Hugging Face Datasets",
+    "access": "pública",
+    "update_frequency": "never"
+  },
+  "keywords": [
+    "empleo",
+    "EURES",
+    "mercado laboral",
+    "España",
+    "scraping",
+    "minería de texto",
+    "aprendizaje automático",
+    "datos abiertos"
+  ]
+}

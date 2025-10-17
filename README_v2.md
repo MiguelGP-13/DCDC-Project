@@ -36,8 +36,7 @@ print(df.head())
 ```python
 from datasets import load_dataset
 
-ds = load_dataset("tu-usuario/empleos-espanoles-eures-2025")
-print(ds['train'][0])
+ds = load_dataset("MiguelGP-13/empleos-espanoles-eures-2025")
 ```
 
 ---
@@ -80,14 +79,30 @@ Todos los datos proceden de fuentes públicas de libre acceso, sin necesidad de 
 
 ### Data Processing
 
-Tras la obtención inicial, se realizó un preprocesamiento y estandarización a través de un cuaderno de limpieza.  
-Las transformaciones incluyeron:
+El dataset fue sometido a un proceso de limpieza y estandarización que incluyó:
 
-- **Normalización de fechas** al formato `DD/MM/AAAA`.  
-- **Eliminación de caracteres HTML**, saltos de línea y espacios redundantes en las descripciones.  
-- **Anonimización de datos personales** (se eliminaron correos y teléfonos presentes en los textos).  
-- **Verificación de duplicados** mediante la columna `url`.  
-- **Exportación final a CSV UTF-8**, listo para su publicación.
+#### Normalización y formato
+- Conversión de fechas al formato `DD/MM/AAAA`
+- Conversión del archivo a codificación UTF-8
+- Limpieza de saltos de línea y espacios redundantes
+
+#### Limpieza textual
+- Eliminación de caracteres HTML en las descripciones
+- Traducción de textos en catalán al castellano
+- Anonimización de datos personales (correos electrónicos y teléfonos)
+
+#### Filtrado y depuración
+- Eliminación de anuncios que no están en español
+- Eliminación de ofertas sin fecha límite de solicitud
+- Eliminación de columnas con datos mal obtenidos, nulos o poco informativos (`educación`, `empresa`, `fecha_publicacion`, `duración de jornada`)
+- Verificación y eliminación de duplicados mediante la columna `url`
+
+#### Enriquecimiento estructural
+- Relleno de provincias vacías a partir del contenido de la descripción
+- Renombrado de la columna `region` a `provincia`
+
+#### Exportación final
+- Generación del archivo final en formato CSV UTF-8, listo para su publicación
 
 ---
 
@@ -115,7 +130,7 @@ En consecuencia, el uso de los datos originales deberá respetar las condiciones
 
 En caso de reutilizar o redistribuir el dataset, por favor menciona la fuente y los autores en la forma indicada en la sección de *Citation*.
 
-Los datos originales del portal EURES se encuentran disponibles en https://ec.europa.eu/eures
+Los datos originales del portal EURES se encuentran disponibles en https://europa.eu/eures/portal/jv-se/home?lang=es
 
 ---
 
@@ -130,12 +145,11 @@ Si utiliza este dataset en publicaciones académicas o proyectos derivados, se r
 ## Acknowledgements
 
 Los datos originales provienen de portales de empleo **oficiales y públicos**, principalmente de la red **EURES** y sus integraciones autonómicas.  
-Agradecimientos a las instituciones europeas y españolas que mantienen políticas de datos abiertos, a nuestro profesor Carlos Badenes y a la comunidad de código abierto por las herramientas utilizadas, en particular:
+Agradecimientos a las instituciones europeas y españolas que mantienen políticas de datos abiertos, y a la comunidad de código abierto por las herramientas utilizadas, en particular:
 
 - [Playwright](https://playwright.dev/) – automatización de navegación web.  
 - [Pandas](https://pandas.pydata.org/) – procesamiento y análisis de datos.  
 - [Hugging Face Datasets](https://huggingface.co/docs/datasets) – publicación y distribución abierta de datasets.  
-
 
 ---
 

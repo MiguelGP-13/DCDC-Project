@@ -1,38 +1,164 @@
-# DCDC-Project
+# Ofertas de Empleo Públicas en España (EURES, 2025)
 
-## 1. Obtención del dataset:
-Para obtener los datos hemos *scrapeado* todas las ofertas de trabajo disponibles en España el 11 de octubre en [eures.europa.eu](https://europa.eu/eures/portal/jv-se/home?lang=es).
+## Dataset Summary
 
-Hemos obtenido 9685 ofertas (incluyendo duplicadas), de las cuales, 7435 ofertas estaban en español.
+Este dataset recopila ofertas de empleo publicadas en portales oficiales de empleo europeos y españoles, principalmente a través de la red **EURES (European Employment Services)**.  
+Forma parte del proyecto desarrollado para la práctica de la **Universidad Politécnica de Madrid (UPM)** en la asignatura *Descubrimiento del Conocimiento en Datos Complejos*.  
 
-Al eliminar las ofertas duplicadas, lo guardamos en 3 csv:
-- `ofertasRaw.csv`: Todas las 9685 las ofertas obtenidas. (con repetidos y varios idiomas)
-- `ofertas.csv`: Todas las 7299 ofertas en español, 3562 sin título. (Relevantes, ya que el campo ocupación se podría utilizar como nombre)
-- `ofertasDescriptive.csv`: Solo las 3737 ofertas con nombre descriptivo.
+El dataset tiene como propósito servir como fuente de información para análisis del mercado laboral, extracción de información, y aplicaciones de minería de texto o aprendizaje automático sobre descripciones de empleo públicas.  
 
-### Preproceso de los datos
-1. Eliminamos los anuncios que no están en español
-2. Eliminación de columnas con datos mal obtenidos (`educación`) y con 100% de nulos (`duración de jornada`).
-3. Eliminación de ofertas sin fecha límite de solicitud
+Los datos proceden íntegramente de fuentes **públicas y abiertas** bajo políticas de datos abiertos gubernamentales.
 
-### Características del dataset:
+---
 
-| Columna            | % Nulos   | Descripción                                                                 |
-|--------------------|-----------|------------------------------------------------------------------------------|
-| url                | 0%    | Enlace a la oferta de trabajo.                                               |
-| fecha_publicacion  | 0%    | Fecha en la que se publicó la oferta.                                        |
-| fecha_limite       | 0%    | Fecha límite para postularse a la oferta.                                    |
-| titulo             | 0%    | Título del puesto ofertado.                                                  |
-| empresa            | 99%   | Nombre de la empresa que publica la oferta (casi siempre ausente).           |
-| ocupacion          | 10%   | Categoría o área de ocupación del puesto.                                    |
-| descripcion        | 0%    | Texto descriptivo con detalles de la oferta.                                 |
-| pais               | 0%    | País donde se ofrece el empleo.                                              |
-| region             | 1.6%    | Región dentro del país.                        |
-| tipo_contrato      | 0.1%    | Tipo de contrato ofrecido (ej. indefinido, temporal, prácticas).             |
+## Changelog
 
-*Existen poco más de 400 filas con ocupación y titulo nulos. Se podrían borrar*
+**Versión 1.0 – Octubre 2025**
+- Primera versión del dataset.
+- Datos extraídos de portales oficiales mediante scrapers basados en Playwright.
+- Limpieza, normalización y exportación final en formato CSV.
 
+---
 
-### Licencia
+## How to use
 
-Los datos siguen la normativa de la Autoridad Laboral Europea (ELA)
+El dataset se encuentra disponible en formato **CSV UTF-8**. Puede cargarse directamente en entornos de análisis de datos.
+
+### Ejemplo en Python
+```python
+import pandas as pd
+
+df = pd.read_csv("empleos_espanoles_eures_2025.csv")
+print(df.head())
+```
+
+### Ejemplo con Hugging Face Datasets
+```python
+from datasets import load_dataset
+
+ds = load_dataset("MiguelGP-13/empleos-espanoles-eures-2025")
+```
+
+---
+
+### Data Structure
+
+| Campo | Descripción | Tipo |
+|--------|--------------|------|
+| `url` | Enlace a la oferta original en el portal EURES o fuente autonómica oficial | string |
+| `fecha_publicacion` | Fecha de publicación de la oferta (DD/MM/AAAA) | date |
+| `fecha_limite` | Fecha límite para postular | date |
+| `titulo` | Título del puesto ofertado | string |
+| `empresa` | Nombre de la empresa o entidad contratante (si está disponible) | string |
+| `ocupacion` | Ocupación o categoría profesional principal | string |
+| `descripcion` | Descripción textual completa del puesto (sin datos personales) | string |
+| `pais` | País de la oferta | string |
+| `region` | Comunidad autónoma o provincia | string |
+| `tipo_contrato` | Tipo de contrato o modalidad laboral | string |
+
+Formato de archivo: `CSV UTF-8`  
+Número estimado de registros: variable (según fecha de ejecución del scraper).  
+Frecuencia de actualización: única (los scripts permiten obtener datos actualizados en futuras ejecuciones).
+
+---
+
+#### Data coverage
+#### Data coverage
+**Rango temporal de los datos:** desde el 10 de octubre de 2025 hasta el 26 de octubre de 2026  
+*(la penúltima oferta corresponde al 21 de marzo de 2026 y la última al 26 de octubre de 2026)*
+
+---
+
+### Data Collection
+
+Los datos fueron recolectados mediante **scripts de scraping** desarrollados en Python utilizando la librería **Playwright**.  
+Se accedió de manera automatizada a las ofertas publicadas en el portal **EURES** y, en algunos casos, a portales autonómicos integrados en la red pública de empleo.
+
+#### Descripción del proceso de recolección:
+1. Obtención de listados de URLs de ofertas a partir de buscadores públicos de empleo.
+2. Acceso controlado a cada página con Playwright, respetando límites de concurrencia y tiempos de espera para evitar sobrecarga.
+3. Extracción de información mediante selectores identificados (`id` y `class`) en la estructura HTML.
+4. Registro de cada oferta en formato tabular (`.csv`), garantizando que los campos principales estén completos.
+
+Todos los datos proceden de fuentes públicas de libre acceso, sin necesidad de autenticación ni recopilación de información personal.
+
+---
+
+### Data Processing
+
+El dataset fue sometido a un proceso de limpieza y estandarización que incluyó:
+
+#### Normalización y formato
+- Conversión de fechas al formato `DD/MM/AAAA`
+- Conversión del archivo a codificación UTF-8
+- Limpieza de saltos de línea y espacios redundantes
+
+#### Limpieza textual
+- Eliminación de caracteres HTML en las descripciones
+- Traducción de textos en catalán al castellano
+- Anonimización de datos personales (correos electrónicos y teléfonos)
+
+#### Filtrado y depuración
+- Eliminación de anuncios que no están en español
+- Eliminación de ofertas sin fecha límite de solicitud
+- Eliminación de columnas con datos mal obtenidos, nulos o poco informativos (`educación`, `empresa`, `fecha_publicacion`, `duración de jornada`)
+- Verificación y eliminación de duplicados mediante la columna `url`
+
+#### Enriquecimiento estructural
+- Relleno de provincias vacías a partir del contenido de la descripción
+- Renombrado de la columna `region` a `provincia`
+
+#### Exportación final
+- Generación del archivo final en formato CSV UTF-8, listo para su publicación
+
+---
+
+### Data Maintenance
+
+Este dataset es una **recopilación única (snapshot)** de ofertas publicadas durante octubre de 2025.  
+
+Responsables de mantenimiento y contacto:
+- Álvaro Felipe – alvaro.felipe@alumnos.upm.es  
+- Miguel Gómez – miguel.gprieto@alumnos.upm.es  
+- Alex Pérez – alex.pcarpente@alumnos.upm.es
+
+---
+
+## License
+
+Este dataset deriva de datos abiertos del portal EURES, gestionado por la Comisión Europea y la European Labour Authority (ELA), bajo los términos de la Decision 2011/833/EU on the reuse of Commission documents.
+
+El procesamiento, normalización y compilación de esta versión se se distribuye bajo la licencia **Creative Commons Attribution 4.0 International (CC BY 4.0)**. 
+
+En consecuencia, el uso de los datos originales deberá respetar las condiciones de reutilización de la Comisión Europea.
+
+**Atribución requerida:**
+> Álvaro Felipe, Miguel Gómez, Alex Pérez (2025). *Ofertas de Empleo Públicas en España (EURES, 2025)*. Universidad Politécnica de Madrid. Licencia CC BY 4.0.
+
+En caso de reutilizar o redistribuir el dataset, por favor menciona la fuente y los autores en la forma indicada en la sección de *Citation*.
+
+Los datos originales del portal EURES se encuentran disponibles en https://europa.eu/eures/portal/jv-se/home?lang=es
+
+---
+
+## Citation
+
+Si utiliza este dataset en publicaciones académicas o proyectos derivados, se recomienda la siguiente cita:
+
+> Álvaro Felipe, Miguel Gómez, Alex Pérez (2025). *Ofertas de Empleo Públicas en España (EURES, 2025)* [Dataset]. Universidad Politécnica de Madrid. Disponible en Hugging Face Datasets. Licencia CC BY 4.0.
+
+---
+
+## Acknowledgements
+
+Los datos originales provienen de portales de empleo **oficiales y públicos**, principalmente de la red **EURES** y sus integraciones autonómicas.  
+Agradecimientos a las instituciones europeas y españolas que mantienen políticas de datos abiertos, y a la comunidad de código abierto por las herramientas utilizadas, en particular:
+
+- [Playwright](https://playwright.dev/) – automatización de navegación web.  
+- [Pandas](https://pandas.pydata.org/) – procesamiento y análisis de datos.  
+- [Hugging Face Datasets](https://huggingface.co/docs/datasets) – publicación y distribución abierta de datasets.  
+
+---
+
+*Última actualización: 15 de octubre de 2025*  
+*Versión: 1.0*

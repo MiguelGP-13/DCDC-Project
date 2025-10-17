@@ -70,6 +70,8 @@ El dataset tiene como propósito servir como fuente de información para anális
 Los datos proceden íntegramente de fuentes **públicas y abiertas** bajo políticas de datos abiertos gubernamentales.
 El **Rango temporal de los datos** abarca desde el 10 de octubre de 2025 hasta el 26 de octubre de 2026.
 
+Hay que tener en cuenta que algunas descripciones están en catalán.
+
 ---
 
 ## Changelog

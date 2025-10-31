@@ -5,13 +5,13 @@
 - [x] Agrupar y ver cuantas ofertas hay cada
 
 ### 3. Normalización de la columna descripción
-- [ ] Eliminar URL
-- [ ] Eliminar números
-- [ ] Convertir a minúsculas
-- [ ] Eliminar signos de puntuación
-- [ ] Lematizar texto
+- [x] Traducción de textos en otras lenguas al castellano.
+- [x] Eliminar URL
+- [x] Eliminar números
+- [x] Convertir a minúsculas
+- [x] Eliminar signos de puntuación
+- [x] Lematizar texto
 - [x] Detectar y eliminar patrones tipo `/a`, `/as`
-- [ ] Detectar referencias tipo `\d+[A-Z]+`
 
 ### 4. Análisis de sentimiento
 - [ ] Aplicar análisis de sentimiento a la columna descripción

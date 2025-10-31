@@ -22,5 +22,6 @@
 
 ### 6. Clasificación temática con LLM
 - [ ] Clasificar ocupaciones usando modelo LLM
+https://huggingface.co/MoritzLaurer/bge-m3-zeroshot-v2.0?candidate_labels=hosteleria%2C+administraci%C3%B3n%2C+educacion%2C+salud%2C+turismo&multi_class=false&text=corredor+de+seguros%2Fcorredora+de+seguros
 
    

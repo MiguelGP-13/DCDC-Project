@@ -21,7 +21,11 @@
 - [ ] Aplicar modelo de tópicos (LDA / BERTopic)
 
 ### 6. Clasificación temática con LLM
-- [ ] Clasificar ocupaciones usando modelo LLM
+- [x] Clasificar ocupaciones usando modelo LLM zero-shot
+- [ ] Describir clasificación
+
+URLS:
+
 https://huggingface.co/MoritzLaurer/bge-m3-zeroshot-v2.0
 
 https://huggingface.co/DAMO-NLP-SG/zero-shot-classify-SSTuning-XLM-R

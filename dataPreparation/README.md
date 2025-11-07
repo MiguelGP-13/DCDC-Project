@@ -22,7 +22,7 @@
 
 ### 6. Clasificación temática con LLM
 - [x] Clasificar ocupaciones usando modelo LLM zero-shot
-- [ ] Describir clasificación
+- [x] Describir clasificación
 
 URLS:
 

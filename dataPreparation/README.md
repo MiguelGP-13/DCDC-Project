@@ -14,11 +14,11 @@
 - [x] Detectar y eliminar patrones tipo `/a`, `/as`
 
 ### 4. Análisis de sentimiento
-- [ ] Aplicar análisis de sentimiento a la columna descripción
+- [X] Aplicar análisis de sentimiento a la columna descripción usando un emsemble ponderado de votación con 3 modelos distintos
 
 ### 5. Tópicos en descripción
-- [ ] Analizar variación temporal de tópicos
-- [ ] Aplicar modelo de tópicos (LDA / BERTopic)
+- [X] Analizar variación temporal de tópicos
+- [X] Aplicar modelo de tópicos (LDA / BERTopic) [usamos LDA]
 
 ### 6. Clasificación temática con LLM
 - [x] Clasificar ocupaciones usando modelo LLM zero-shot

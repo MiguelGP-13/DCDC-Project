@@ -15,9 +15,10 @@ El objetivo principal de este proyecto es analizar la evolución y característi
 
 ### Hipótesis planteadas
 
-1. El volumen de ofertas en el sector sanitario aumenta durante el mes de diciembre, coincidiendo con refuerzos estacionales en atención médica.
+1. El tópico 2 (ocupacional, residencial, supervisar, terapeuta...) aparecen con mayor frecuencia en el sector Sanitario y Salud.
 2. Las ofertas del sector logístico presentan mayor actividad en el inicio de diciembre, en preparación para la campaña navideña.
-3. Los tópicos relacionados con `formación` y `flexibilidad` aparecen con mayor frecuencia en sectores como educación y cultura.
+3. El tópico 6 (ingeniero, civil, fiscal, proveedor, sede...) predomina en el sector de Administración y Finanzas.
+
 
 ## Justificación del dataset y de los indicadores calculados
 

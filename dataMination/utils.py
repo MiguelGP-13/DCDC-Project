@@ -9,9 +9,13 @@ from statsmodels.graphics.tsaplots import plot_acf
 import numpy as np
 from statsmodels.tsa.stattools import adfuller
 
-def cargar_dataset(path="../empleos-espanoles-eures-2025-numerico.csv"):
+def cargar_dataset(path="../empleos-espanoles-eures-2025-numerico.csv", acotar= False, fecha=None):
     df = pd.read_csv(path)
     df['timestamp'] = pd.to_datetime(df['timestamp'], format="%d/%m/%Y")
+    if acotar:
+        if not fecha:
+            fecha = "2026-01-15"
+        df = df[df["timestamp"] < pd.Timestamp(fecha)]
     return df
 
 def agrupar(df, indicador, freq="D"):

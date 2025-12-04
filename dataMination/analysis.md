@@ -17,7 +17,7 @@ Vimos una gran similitud entre varias gráficas, sobretodo en los sectores, dond
 Viendo al alta correlación entre los temas, decidimos centrarnos en los tópicos.
 
 ### Busqueda estacionariedad:
-Se ha utilizado el test de estacinariedad (ADF), y en el tópico 4, el único no estacionario, se ha aplicado el ADF a su diferenciación.
+Se ha utilizado el test de estacinariedad (ADF), y se ha descubierto que el tópico 4 es el único no estacionario. Hemos aplicado nuevamente el ADF a su diferenciación y hemos determinado que sólamente es necesario 1 diferenciación para lograr la serie estacionaria.
 
 
 ### Busqueda estacionalidad:
@@ -29,7 +29,7 @@ Para analizar la tendencia, hemos aplicado la decomposición estacional para los
 
 ### Suavizado exponencial
 Para los tópicos 1, 3 y 4, los que tienen estacionalidad, al tener un ciclo de 7 días, hemos usado Holt-Winters (Triple Suavizado).
-Para el resto de tópciso,como no tienen ni estacionalidad, ni estacionariedad ni tendencia, se ha aplicado el Suavizado Exponencial Simple, que simplemente estima filtrando el ruido.
+Para el resto de tópicos ,como no tienen ni estacionalidad, ni estacionariedad ni tendencia, se ha aplicado el Suavizado Exponencial Simple, que simplemente estima filtrando el ruido.
 
 ### SARIMA
 Los tópicos estacionales son siempre cada 7 dias, por tanto el valor estacional es siempre 7. Para todos los topicos salvo el 4 (donde d=1), el valor de d=0 ya que no requiere diferenciación para lograr ser estacionaria.

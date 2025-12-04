@@ -106,7 +106,7 @@ A pesar de los picos exógenos observados (noviembre/diciembre), hemos decidido 
 
 ### SARIMAX
 
-Tanto en los tópicos 4 y 1, al aplicar el modelo SARIMA que mejor se ajusta a cada serie, observamos que la inclusión de variables exógenas no aporta información relevante, ya que todos los coeficientes asociados presentan p-valores superiores a 0.05, lo que indica ausencia de significancia estadística.
+Tanto en los tópicos 1 y 4, al aplicar el modelo SARIMA que mejor se ajusta a cada serie, observamos que la inclusión de variables exógenas no aporta información relevante, ya que todos los coeficientes asociados presentan p-valores superiores a 0.05, lo que indica ausencia de significancia estadística.
 
 En cambio, el tópico 3 sí se detectan dependencias respecto a algunas variables exógenas. Los sectores que muestran coeficientes con p-valores inferiores a 0.05 son:
 
@@ -132,10 +132,44 @@ Esto significa que la dinámica del tópico 3, relacionado con términos como *a
 | Cultura, Arte y Ocio          | -0.8352     | 0.478   | No            |
 *Resultado SARIMAX para el tópico 3*
 
+En el caso del tópico 2, la estimación del modelo SARIMAX tampoco muestra una aportación relevante de las variables exógenas. La mayoría de sectores presentan p-valores muy superiores a 0.05, lo que indica ausencia de significancia estadística y, por tanto, falta de dependencia temporal respecto a su actividad. El único sector con un coeficiente significativo es Administración y Finanzas (p = 0.039), aunque su efecto es negativo y de magnitud moderada, por lo que no resulta interpretable en términos de una relación estructural. En conjunto, el modelo sugiere que la dinámica del tópico 2 está dominada por ruido y variaciones internas, sin que los sectores analizados expliquen su comportamiento temporal.
+
+En el caso del tópico 6, el modelo SARIMAX muestra que el coeficiente asociado al sector Administración y Finanzas no es significativo (p = 0.530), lo que indica que su actividad no explica la evolución temporal del tópico. La mayoría de sectores presentan igualmente p-valores elevados, evidenciando la ausencia de relaciones temporales consistentes. El único coeficiente significativo corresponde al sector Sanitario y Salud (p = 0.012), aunque su efecto es negativo y de magnitud reducida, por lo que no resulta interpretable como una relación estructural.
+
 ## Discusión
 
-Describir sobre las hipótesis, si se han refutado o apoyado
+El análisis temporal realizado sobre los distintos tópicos y sectores permite evaluar las hipótesis planteadas en la Entrega 2. En conjunto, los resultados muestran patrones coherentes con la dinámica del mercado laboral, aunque también revelan limitaciones importantes derivadas del ruido y la influencia de eventos exógenos.
+
+1. En relación con la hipótesis “El tópico 2 aparece con mayor frecuencia en el sector Sanitario y Salud” queda refutada a la luz del modelo SARIMAX estimado, ya que el coeficiente asociado a dicho sector no resulta significativo (p = 0.742) y, en general, la mayoría de sectores presentan p-valores elevados que indican ausencia de dependencia temporal, siendo únicamente el sector de Administración y Finanzas significativo (p = 0.039) con un efecto negativo que además contradice la hipótesis inicial.
+
+2. Por otro lado, la hipótesis “Las ofertas del sector logístico presentan mayor actividad a inicios de diciembre”, los resultados la apoyan claramente. El tópico 3, estrechamente vinculado a logística, muestra un pico abrupto en diciembre que coincide con la campaña navideña y el periodo de Black Friday. Tanto la descomposición estacional como los modelos SARIMA y SARIMAX reflejan este comportamiento, indicando que se trata de un shock exógeno significativo y consistente con la dinámica del sector.
+
+
+3. Por su parte, la hipótesis “El tópico 6 predomina en el sector de Administración y Finanzas” tampoco encuentra apoyo en los resultados obtenidos. El análisis confirma que el tópico 6 presenta un comportamiento estable y autónomo, sin influencia sectorial relevante, ya que el sector propuesto en la hipótesis no muestra significancia estadística y el resto de sectores tampoco aportan dependencia temporal interpretable. En consecuencia, la hipótesis queda refutada.
+
+
+4. Respecto a la hipótesis “Hostelería y Turismo muestra mayor dispersión temática”, los resultados la apoyan parcialmente. Aunque el análisis temporal no mide directamente la dispersión, sí se observa que este sector no aparece como exógeno significativo en ningún modelo SARIMAX, lo que sugiere que su actividad no explica la dinámica de ningún tópico concreto. Esto es coherente con una mayor heterogeneidad temática, pero esto sucede con la mayoría de los sectores.
+
+![Distribución de ofertas por día](results/DistribucionPorSector.png)
+
+5. Finalmente, la hipótesis “Los fines de semana presentan un descenso claro en las ofertas laborales” queda respaldada visualmente, ya que la gráfica correspondiente muestra una caída evidente en sábado y domingo.
+
+![Distribución de ofertas por día](results/Semanal.png)
+
+En conjunto, los resultados permiten confirmar parcialmente las hipótesis planteadas, aunque también ponen de manifiesto la necesidad de análisis adicionales para obtener conclusiones más robustas.
+
 
 ## Limitaciones y posibles mejoras
 
-Más datos, ya que toda conclusión no es extrapolable
+El estudio presenta varias limitaciones que condicionan la solidez de las conclusiones:
+
+- **Cantidad limitada de datos**: El periodo temporal analizado es relativamente corto, lo que dificulta la detección de patrones estacionales complejos y reduce la capacidad predictiva de los modelos. Esto afecta especialmente a los tópicos con alta volatilidad.
+- **Presencia de eventos exógenos**: Fenómenos como Black Friday o la campaña navideña introducen picos abruptos que los modelos no pueden anticipar, limitando su capacidad para capturar la dinámica real de las series.
+- **Ruido elevado en la mayoría de tópicos**: Muchos tópicos presentan una variabilidad tan alta que incluso modelos avanzados como SARIMA o Holt-Winters no logran capturar la magnitud de los cambios, lo que reduce la interpretabilidad.
+
+Para mejorar el análisis en futuras entregas, se podrían considerar las siguientes acciones:
+
+- **Ampliar el periodo temporal** para capturar ciclos completos y mejorar la robustez de los modelos.
+- **Incorporar variables exógenas adicionales**, como indicadores económicos, festivos o campañas comerciales, para explicar mejor los picos abruptos.
+- **Analizar la actividad por día de la semana** con estadísticas descriptivas y modelos con variables dummy, reforzando la hipótesis sobre los fines de semana.
+- **Realizar análisis de correlación cruzada (CCF)** entre tópicos y sectores para identificar dependencias temporales no capturadas por los modelos actuales.

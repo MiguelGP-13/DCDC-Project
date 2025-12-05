@@ -1,9 +1,9 @@
+# Minería de Datos Complejos
+
 ## Hipótesis: 
-1. El tópico 2 (ocupacional, residencial, supervisar, terapeuta...) aparecen con mayor frecuencia en el sector Sanitario y Salud. (No es hipotesis)
-2. Las ofertas del sector logístico presentan mayor actividad en el inicio de diciembre, en preparación para la campaña navideña. 
-3. El tópico 6 (ingeniero, civil, fiscal, proveedor, sede...) predomina en el sector de Administración y Finanzas. (No es hipotesis)
-4. Los sectores de Hostelería y Turismo muestra una mayor dispersión temática con respecto a los tópicos. (Hay que refinarla)
-5. Los fines de semana aparentan un claro descenso de las ofertas laborales.
+1. Las ofertas del sector logístico presentan mayor actividad en el inicio de diciembre, en preparación para la campaña navideña.
+2. Los sectores de Hostelería y Turismo muestra una mayor dispersión temática con respecto a los tópicos
+3. Los fines de semana aparentan un claro descenso de las ofertas laborales.
 
 ## Técnicas aplicadas:
 
@@ -40,6 +40,26 @@ La selección del mejor modelo se ha basado en minimizar el Criterio de Informac
 
 ### SARIMAX
 Por último hemos aplicado SARIMAX, para buscar exogenias con los sectores de las ofertas en los tópicos 1,3 y 4.
+
+### LSTM 
+Además de los modelos clásicos, se ha entrenado un modelo de red neuronal LSTM por cada tópico con tres objetivos:
+
+1. Comparar su capacidad de ajuste frente a los modelos lineales.
+2. Detectar días anómalos a partir del error de predicción.
+3. Generar predicciones a corto plazo (10 días) para estudiar el comportamiento futuro.
+
+Para cada `topico_i`:
+
+- Se construye una serie diaria mediante la media por día.
+- Se escalan los valores a \([0,1]\) con `MinMaxScaler`.
+- Se generan ventanas de 7 días como entrada y el valor del día siguiente como salida.
+- Se entrena una LSTM con 100 unidades y una capa densa final, optimizada con Adam y pérdida MSE.
+
+Sobre estas predicciones se realiza después:
+- la detección de anomalías (Top-10 errores absolutos por tópico),
+- la comparación de periodos (entrenamiento vs test),
+- y la predicción futura a 10 días vista.
+
 
 ## Resultados
 
@@ -136,27 +156,131 @@ En el caso del tópico 2, la estimación del modelo SARIMAX tampoco muestra una 
 
 En el caso del tópico 6, el modelo SARIMAX muestra que el coeficiente asociado al sector Administración y Finanzas no es significativo (p = 0.530), lo que indica que su actividad no explica la evolución temporal del tópico. La mayoría de sectores presentan igualmente p-valores elevados, evidenciando la ausencia de relaciones temporales consistentes. El único coeficiente significativo corresponde al sector Sanitario y Salud (p = 0.012), aunque su efecto es negativo y de magnitud reducida, por lo que no resulta interpretable como una relación estructural.
 
+### LSTM
+
+#### Detección de anomalías mediante el residuo de predicción (LSTM)
+El modelo LSTM genera una predicción diaria basada en los 7 días anteriores.
+A partir de esta predicción, se calcula el **residuo**:
+
+\[
+\text{residuo}_t = y^{real}_t - y^{pred}_t
+\]
+
+Los días con mayor error absoluto se consideran **anomalías**, ya que se alejan del
+comportamiento “esperado” aprendido por el modelo.
+
+|    Fecha   | Valor real |  Predicción |  Residuo  | Residuo (absoluto)|   
+|------------|------------|-------------|-----------|-------------------|                                      
+| 2025-12-27 | 0.000000   | 0.103619    | -0.103619 | 0.103619          |   
+| 2026-01-02 | 0.183208   | 0.101527    | 0.081681  | 0.081681          | 
+| 2026-01-04 | 0.047996   | 0.118739    | -0.070743 | 0.070743          | 
+| 2026-01-03 | 0.174218   | 0.104754    | 0.069464  | 0.069464          | 
+| 2025-12-26 | 0.142153   | 0.098815    | 0.043338  | 0.043338          | 
+| 2025-12-22 | 0.136790   | 0.094768    | 0.042022  | 0.042022          | 
+| 2025-12-24 | 0.123790   | 0.094073    | 0.029717  | 0.029717          | 
+| 2026-01-01 | 0.128888   | 0.099869    | 0.029019  | 0.029019          | 
+| 2025-12-29 | 0.128409   | 0.100622    | 0.027787  | 0.027787          | 
+| 2026-01-05 | 0.097385   | 0.114487    | -0.017103 | 0.017103          | 
+*Ejemplo de anomalías LSTM para topico_1*
+
+![Anomalías LSTM – Tópico 1](results/imagen_topico1_anomalias.png)
+![Anomalías LSTM – Tópico 3](results/imagen_topico3_anomalias.png)
+![Anomalías LSTM – Tópico 4](results/imagen_topico4_anomalias.png)
+![Anomalías LSTM – Tópico 5](results/imagen_topico5_anomalias.png)
+
+
+
+**Observación clave:**  
+En TODOS los tópicos, el día **2025-12-27** aparece como anomalía principal.  
+Esto indica una caída excepcional del valor en un día donde el modelo esperaba actividad normal, probablemente asociada a eventos navideños.
+
+#### Predicción futura: horizonte de 10 días
+La LSTM genera predicciones autoregresivas para los 10 días posteriores al final de la serie.
+En todos los tópicos se observa un patrón común:
+- El modelo proyecta valores suaves y estables, sin replicar los picos bruscos de diciembre.
+- En la mayoría de tópicos la predicción converge a un valor cercano al promedio reciente.
+- Tópicos como topico_5 muestran mayor variabilidad por haber presentado picos extremos.
+
+![Predicción futura – Tópico 0](results/topico0_pred_future.png)
+![Predicción futura – Tópico 1](results/topico1_pred_future.png)
+![Predicción futura – Tópico 2](results/topico2_pred_future.png)
+![Predicción futura – Tópico 3](results/topico3_pred_future.png)
+![Predicción futura – Tópico 4](results/topico4_pred_future.png)
+![Predicción futura – Tópico 5](results/topico5_pred_future.png)
+![Predicción futura – Tópico 6](results/topico6_pred_future.png)
+![Predicción futura – Tópico 7](results/topico7_pred_future.png)
+
+**Observaciones:** 
+El comportamiento esperado para la mayoría de tópicos es estabilidad alrededor del nivel medio de cada serie.
+Esto concuerda con el patrón estacional detectado: diciembre muestra mayores fluctuaciones por motivos festivos, que después se normalizan.
+
+#### Análisis mensual: detección de estacionalidad
+Para identificar patrones a medio plazo, se calculó la media mensual de cada tópico.
+
+|   Mes   | topico_0 | topico_1 | topico_2 | topico_3 | topico_4 | topico_5 | topico_6 | topico_7 |
+|---------|----------|----------|----------|----------|----------|----------|----------|----------|
+| 2025-10 | 0.124361 | 0.116303 | 0.151883 | 0.123794 | 0.130493 | 0.121140 | 0.109849 | 0.122176 |
+| 2025-11 | 0.128488 | 0.114860 | 0.156895 | 0.105462 | 0.140792 | 0.108302 | 0.116768 | 0.128432 |
+| 2025-12 | 0.107523 | 0.100321 | 0.161340 | 0.136098 | 0.130987 | 0.104537 | 0.120979 | 0.138215 |
+| 2026-01 | 0.133089 | 0.122967 | 0.088293 | 0.131431 | 0.145961 | 0.174096 | 0.099001 | 0.105162 |
+
+**Observaciones:** 
+Diciembre es el mes más atípico: Algunos tópicos suben fuerte (3, 7) mientras otros bajan notablemente (0, 1, 5).
+Enero muestra un “rebote” general tras las fiestas, coherente con las predicciones LSTM.
+
+#### Análisis entre semana vs fin de semana: detección de estacionalidad
+Para entender patrones semanales, se calculó la media en días laborables vs fines de semana:
+
+| Tópico    | Entre semana | Fin de semana  |
+|-----------|--------------|----------------|
+| topico_0  | 0.122036     | 0.117505       |
+| topico_1  | 0.117246     | 0.094844       |
+| topico_2  | 0.145671     | 0.167342       |
+| topico_3  | 0.107713     | 0.159866       |
+| topico_4  | 0.149010     | 0.100371       |
+| topico_5  | 0.108139     | 0.133921       |
+| topico_6  | 0.120522     | 0.101149       |
+| topico_7  | 0.129662     | 0.125003       |
+
+El análisis semanal se complementa con las correlaciones más altas entre tópicos y sectores:
+
+|               col1              |   col2   | correlacion |
+|---------------------------------|----------|-------------|
+| Sanitario y Salud               | topico_2 | 0.2506      |
+| Administración y Finanzas       | topico_6 | 0.2318      |
+| Hostelería y Turismo            | topico_1 | 0.1732      |
+| Tecnología y Telecomunicaciones | topico_6 | 0.1503      |
+| Educación y Formación           | topico_0 | 0.1247      |
+
+**Observaciones:**
+- **tópico_6**, que es claramente más fuerte entre semana, aparece correlado con *Administración y Finanzas* y *Tecnología y Telecomunicaciones*, sectores típicamente de actividad laboral intensa.
+- **tópico_2**, más activo en fin de semana, se asocia a *Sanitario y Salud*, un sector con dinámicas de trabajo distintas del ciclo laboral estándar.
+- **tópico_1**, también más fuerte de lunes a viernes, correlaciona positivamente con *Hostelería y Turismo* (0.1732), aunque este sector suele tener picos en fin de semana. Esto indica que el tópico captura elementos administrativos y no exclusivamente actividades operativas del sector.
+
+
 ## Discusión
+
+Hay algunos resultados obtenidos previamente que han  sido refutados:
+
+- En relación con el resultado “El tópico 2 aparece con mayor frecuencia en el sector Sanitario y Salud” queda refutada a la luz del modelo SARIMAX estimado, ya que el coeficiente asociado a dicho sector no resulta significativo (p = 0.742) y, en general, la mayoría de sectores presentan p-valores elevados que indican ausencia de dependencia temporal, siendo únicamente el sector de Administración y Finanzas significativo (p = 0.039) con un efecto negativo que además contradice el resultado obtenido inicialmente.
+
+- Por otro lado, el resultado “El tópico 6 predomina en el sector de Administración y Finanzas” tampoco encuentra apoyo en los resultados obtenidos. El análisis confirma que el tópico 6 presenta un comportamiento estable y autónomo, sin influencia sectorial relevante, ya que el sector propuesto en este resultado no muestra significancia estadística y el resto de sectores tampoco aportan dependencia temporal interpretable. El tópico 6 presenta un patrón estable entre semana, pero no dependiente de Administración y Finanzas. La dinámica del tópico 6 es autónoma y con poca influencia externa.
+
+### Hipótesis
 
 El análisis temporal realizado sobre los distintos tópicos y sectores permite evaluar las hipótesis planteadas en la Entrega 2. En conjunto, los resultados muestran patrones coherentes con la dinámica del mercado laboral, aunque también revelan limitaciones importantes derivadas del ruido y la influencia de eventos exógenos.
 
-1. En relación con la hipótesis “El tópico 2 aparece con mayor frecuencia en el sector Sanitario y Salud” queda refutada a la luz del modelo SARIMAX estimado, ya que el coeficiente asociado a dicho sector no resulta significativo (p = 0.742) y, en general, la mayoría de sectores presentan p-valores elevados que indican ausencia de dependencia temporal, siendo únicamente el sector de Administración y Finanzas significativo (p = 0.039) con un efecto negativo que además contradice la hipótesis inicial.
-
-2. Por otro lado, la hipótesis “Las ofertas del sector logístico presentan mayor actividad a inicios de diciembre”, los resultados la apoyan claramente. El tópico 3, estrechamente vinculado a logística, muestra un pico abrupto en diciembre que coincide con la campaña navideña y el periodo de Black Friday. Tanto la descomposición estacional como los modelos SARIMA y SARIMAX reflejan este comportamiento, indicando que se trata de un shock exógeno significativo y consistente con la dinámica del sector.
+1. Por otro lado, la hipótesis “Las ofertas del sector logístico presentan mayor actividad a inicios de diciembre”, los resultados la apoyan claramente. El tópico 3, estrechamente vinculado a logística, muestra un pico abrupto en diciembre que coincide con la campaña navideña y el periodo de Black Friday. Tanto la descomposición estacional como los modelos SARIMA y SARIMAX reflejan este comportamiento, indicando que se trata de un shock exógeno significativo y consistente con la dinámica del sector.
 
 
-3. Por su parte, la hipótesis “El tópico 6 predomina en el sector de Administración y Finanzas” tampoco encuentra apoyo en los resultados obtenidos. El análisis confirma que el tópico 6 presenta un comportamiento estable y autónomo, sin influencia sectorial relevante, ya que el sector propuesto en la hipótesis no muestra significancia estadística y el resto de sectores tampoco aportan dependencia temporal interpretable. En consecuencia, la hipótesis queda refutada.
-
-
-4. Respecto a la hipótesis “Hostelería y Turismo muestra mayor dispersión temática”, los resultados la apoyan parcialmente. Aunque el análisis temporal no mide directamente la dispersión, sí se observa que este sector no aparece como exógeno significativo en ningún modelo SARIMAX, lo que sugiere que su actividad no explica la dinámica de ningún tópico concreto. Esto es coherente con una mayor heterogeneidad temática, pero esto sucede con la mayoría de los sectores.
+2. Respecto a la hipótesis “Hostelería y Turismo muestra mayor dispersión temática”, los resultados la apoyan parcialmente. Aunque el análisis temporal no mide directamente la dispersión, sí se observa que este sector no aparece como exógeno significativo en ningún modelo SARIMAX, lo que sugiere que su actividad no explica la dinámica de ningún tópico concreto. Esto es coherente con una mayor heterogeneidad temática, pero esto sucede con la mayoría de los sectores.
 
 ![Distribución de ofertas por día](results/DistribucionPorSector.png)
 
-5. Finalmente, la hipótesis “Los fines de semana presentan un descenso claro en las ofertas laborales” queda respaldada visualmente, ya que la gráfica correspondiente muestra una caída evidente en sábado y domingo.
+3. Finalmente, la hipótesis “Los fines de semana presentan un descenso claro en las ofertas laborales” queda respaldada visualmente, ya que la gráfica correspondiente muestra una caída evidente en sábado y domingo.
+En el análisis “Entre semana vs fin de semana” confirma que los tópicos 2, 3, 5 y 7, más asociados a ocio o actividades no estrictamente laborales, aumentan en estos días, lo cual refuerza la estructura del comportamiento semanal.
 
 ![Distribución de ofertas por día](results/Semanal.png)
-
-En conjunto, los resultados permiten confirmar parcialmente las hipótesis planteadas, aunque también ponen de manifiesto la necesidad de análisis adicionales para obtener conclusiones más robustas.
 
 
 ## Limitaciones y posibles mejoras

@@ -1,8 +1,8 @@
 ## Hipótesis: 
-1. El tópico 2 (ocupacional, residencial, supervisar, terapeuta...) aparecen con mayor frecuencia en el sector Sanitario y Salud.
-2. Las ofertas del sector logístico presentan mayor actividad en el inicio de diciembre, en preparación para la campaña navideña.
-3. El tópico 6 (ingeniero, civil, fiscal, proveedor, sede...) predomina en el sector de Administración y Finanzas.
-4. Los sectores de Hostelería y Turismo muestra una mayor dispersión temática con respecto a los tópicos
+1. El tópico 2 (ocupacional, residencial, supervisar, terapeuta...) aparecen con mayor frecuencia en el sector Sanitario y Salud. (No es hipotesis)
+2. Las ofertas del sector logístico presentan mayor actividad en el inicio de diciembre, en preparación para la campaña navideña. 
+3. El tópico 6 (ingeniero, civil, fiscal, proveedor, sede...) predomina en el sector de Administración y Finanzas. (No es hipotesis)
+4. Los sectores de Hostelería y Turismo muestra una mayor dispersión temática con respecto a los tópicos. (Hay que refinarla)
 5. Los fines de semana aparentan un claro descenso de las ofertas laborales.
 
 ## Técnicas aplicadas:

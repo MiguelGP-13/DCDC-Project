@@ -1,3 +1,27 @@
+# Síntesis del proyecto
+
+## 1. Dataset publicado en Hugging Face
+
+El proyecto se apoya en un dataset de **ofertas laborales en España**, recopiladas a través del portal EURES y fuentes autonómicas oficiales. La recolección se realizó durante un periodo de **tres meses**, lo que permite observar patrones temporales y sectoriales en un intervalo representativo del mercado laboral.
+
+El dataset contiene más de **7.000 registros**, cada uno estructurado en campos que describen las características principales de las ofertas. Entre ellos destacan:
+
+- **url**: enlace a la oferta original.  
+- **fecha_publicacion**: día en que la oferta fue publicada.  
+- **fecha_limite**: fecha de cierre para postular.  
+- **titulo**: nombre del puesto ofertado.  
+- **empresa**: entidad contratante.  
+- **ocupacion**: categoría profesional principal.  
+- **descripcion**: texto completo de la oferta, sin datos personales.  
+- **pais** y **region/provincia**: localización geográfica de la oferta.  
+- **tipo_contrato**: modalidad laboral (temporal, indefinido, etc.).  
+
+El dataset se encuentra disponible en formatos **CSV y Parquet**, lo que facilita tanto su exploración inicial como su integración en procesos de minería de datos. Además, la documentación incluida en el repositorio describe cada campo y asegura la reproducibilidad del trabajo.
+
+En síntesis, este dataset constituye la **base empírica del proyecto**, ya que permite analizar la evolución de las ofertas laborales en España, identificar patrones estacionales (como la campaña navideña en logística), sectoriales (como la diversidad temática en hostelería y turismo) y semanales (como el descenso de publicaciones en fines de semana). Su publicación en Hugging Face garantiza accesibilidad y transparencia, convirtiéndose en un recurso útil para futuros análisis del mercado laboral.
+
+## 2. 
+
 ## 3. Análisis temporal y resultados principales
 
 ### Estacionariedad, estacionalidad y tendencia de las series

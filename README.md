@@ -165,7 +165,6 @@ Formatos disponibles:
 
 - **CSV**
 - **Parquet**
-- `metadata.json`
 
 Enlace directo al dataset:
 

@@ -20,7 +20,22 @@ El dataset se encuentra disponible en formatos **CSV y Parquet**, lo que facilit
 
 En síntesis, este dataset constituye la **base empírica del proyecto**, ya que permite analizar la evolución de las ofertas laborales en España, identificar patrones estacionales (como la campaña navideña en logística), sectoriales (como la diversidad temática en hostelería y turismo) y semanales (como el descenso de publicaciones en fines de semana). Su publicación en Hugging Face garantiza accesibilidad y transparencia, convirtiéndose en un recurso útil para futuros análisis del mercado laboral.
 
-## 2. 
+## 2. Indicadores calculados y síntesis de la hipótesis planteada
+
+El análisis exploratorio y descriptivo del dataset se estructuró en torno a cuatro indicadores principales: **volumen temporal de publicaciones**, **polaridad emocional**, **tópicos latentes** y **clasificación sectorial asistida por modelos de lenguaje**. Estos indicadores permiten caracterizar el comportamiento del mercado laboral durante el periodo analizado y sirven como base para la formulación de las hipótesis del proyecto.
+
+En primer lugar, el **volumen temporal de ofertas** proporciona información sobre la dinámica de publicación a lo largo de los meses y semanas. Este indicador permite detectar picos de actividad asociados a determinados sectores y momentos del trimestre, así como variaciones sistemáticas entre días laborables y fines de semana.
+
+El análisis de **polaridad emocional** se realizó mediante tres modelos distintos con el fin de obtener una estimación robusta del tono presente en las descripciones de las ofertas. Aunque el lenguaje de estos textos tiende a ser neutro, este indicador permite observar matices entre sectores y complementar la interpretación temática.
+
+La **modelización de tópicos mediante LDA** permitió identificar diez temas recurrentes en el corpus textual. La distribución de estos tópicos entre sectores y su frecuencia relativa ofrecen una visión estructurada del contenido de las ofertas, facilitando la formulación de hipótesis sobre la relación entre ciertos tópicos y áreas profesionales concretas.
+
+Por último, la **clasificación sectorial mediante modelos de lenguaje**, implementada a través de tres clasificadores y un voting classifier final, permitió asignar cada oferta a uno de los diez sectores definidos. Este indicador proporciona una base sistemática para analizar la presencia de tópicos por sector y estudiar patrones temporales diferenciados.
+
+A partir de estos indicadores se plantearon diversas hipótesis:
+1. Las ofertas del sector logístico presentan mayor actividad en el inicio de diciembre, en preparación para la campaña navideña.
+2. Los sectores de Hostelería y Turismo muestra una mayor dispersión temática con respecto a los tópicos
+3. Los fines de semana aparentan un claro descenso de las ofertas laborales.
 
 ## 3. Análisis temporal y resultados principales
 

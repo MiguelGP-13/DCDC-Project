@@ -98,7 +98,7 @@ El repositorio está organizado en tres bloques principales, que deben ejecutars
 
 ---
 
-## 5.1. Scraping de ofertas  
+#### 5.1. Scraping de ofertas  
 **Directorio:** `datasetGeneration/`
 
 Scripts principales:
@@ -120,7 +120,7 @@ python LinksObtainer.py
 python OfferScrapperFast.py
 python clean_csv.py
 ```
-## 5.2. Preparación y limpieza de datos  
+#### 5.2. Preparación y limpieza de datos  
 **Directorio:** `dataPreparation/`
 
 En esta fase se aplican todas las transformaciones necesarias para convertir los datos obtenidos mediante scraping en un dataset limpio, coherente y listo para análisis.  
@@ -135,7 +135,7 @@ Este paso produce un dataset estructurado y consistente, que posteriormente se u
 
 ---
 
-## 5.3. Análisis y exploración  
+#### 5.3. Análisis y exploración  
 **Directorio:** `dataMination/`
 
 Incluye los recursos necesarios para realizar el análisis exploratorio:
@@ -147,7 +147,7 @@ Esta fase permite comprender la distribución de las ofertas, su evolución temp
 
 ---
 
-## 6. Dataset publicado en Hugging Face
+## Dataset publicado en Hugging Face
 
 El dataset final contiene más de **7.000 ofertas laborales**, con los siguientes campos principales:
 
@@ -173,7 +173,7 @@ Enlace directo al dataset:
 
 ---
 
-## 7. Conclusión
+## Conclusión
 
 Este repositorio proporciona un flujo completo y reproducible para:
 

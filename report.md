@@ -90,6 +90,67 @@ En los tópicos 2 y 6, los modelos SARIMAX muestran una aportación exógena muy
 De forma global, el análisis de exogeneidad indica que solo en casos concretos, la influencia exógena sectorial resulta relevante, siendo el tópico 3 el único caso donde las variables externas aportan una mejora clara en la capacidad explicativa. En la mayoría de tópicos, su comportamiento está poco condicionado por la evolución de los sectores.
 
 
+---
+
+
+
+## Resultados finales
+
+#### Contraste de las hipótesis (confirmación, refutación o matización)
+
+A partir del análisis temporal de los tópicos (LDA) y de su evolución a lo largo del periodo de estudio, se contrastan las hipótesis que se han planteado en la "Entrega 2" en tres partes:
+
+- **H1. El tópico 2 (ocupacional, residencial, supervisar, terapeuta…) aparece con mayor frecuencia en el sector Sanitario y Salud.: Se refuta.** 
+Los resultados no confirman esta hipótesis. A pesar de que el análisis descriptivo inicial se observó una mayor presencia del tópico 2 en el sector Sanitario y Salud, esta asociación no se mantiene al incorporar el análisis temporal. Por lo tanto, la relación observada inicialmente no se puede confirmar desde el punto de vista estadístico.
+
+- **H2. Las ofertas del sector logístico presentan mayor actividad en el inicio de diciembre, en preparación para la campaña navideña. → Se confirma.: Se confirma.** 
+La demostración principal aparece en el tópico 3, relacionado con actividades lógisticas, que muestra un pico concentrado en cuanto a su actividad en diciembre, vinculado a un evento externo asociado a la campaña navideña / Black Friday. Este patrón se puede apreciar tanto en la serie original como en los resultados obtenidos con los modelos de análisis temporal. Sin embargo, el gran crecimiento de este tópico, dificulta su predicción precisa, lo que sugiere la presencia de factores externos no capturados por los modelos.
+
+- **H3. El tópico 6 (ingeniero, civil, fiscal, proveedor, sede…) predomina en el sector de Administración y Finanzas.: Se refuta.**
+Aunque en una primera fase exploratoria se intuía una posible vinculación entre el tópico 6 y el ámbito de Administración y Finanzas, el análisis temporal incorporando variables exógenas no aporta evidencia estadística que respalde esta relación.
+
+- **H4. Los sectores de Hostelería y Turismo muestran una mayor dispersión temática con respecto a los tópicos.: Apoyo parcial, con matices.**
+los modelos SARIMAX estimados, el sector de Hostelería y Turismo no se identifica como una variable exógena con significación estadística en la mayor parte de los tópicos considerados. Sin embargo, este resultado no es exclusivo de dicho sector, puesto que otros ámbitos presentan un patrón similar. En consecuencia, aunque no se observa una asociación clara con un tópico predominante, los resultados no permiten concluir de manera firme que Hostelería y Turismo exhiba un mayor grado de dispersión en comparación con el resto de sectores.
+
+- **H5. Los fines de semana aparentan un claro descenso de las ofertas laborales.: Se confirma.**
+El análisis por día de la semana evidencia una bajada de las ofertas publicadas en sábado y domingo. Aun así, cuando se observa la distribución por tópicos, se aprecia que algunos ganan peso relativo durante el fin de semana, lo que indica que, aunque la actividad global baja, la composición temática de las ofertas cambia.
+
+
+
+#### Patrones temporales identificados
+
+El análisis detallado de las series temporales nos muestras diversos patrones de interés:
+
+- **No estacionariedad de las series originales.**
+En gran parte de los tópicos que se han analizado, las series temporales muestran presencia de una tendencia junto con patrones estacionales, lo que indica que no cumplen la condición de estacionariedad en su estado original. Por lo que se ha necesitado aplicar tranformaciones antes de proceder a la estimación de modelos predictivos.
+
+- **Presencia de estacionalidad semanal.**
+En varios tópicos se ve una estacionalidad con periodo aproximado de 7 días, confirmada mediante descomposicion temporal. Este resultado apunta a que el proceso de publicación de ofertas se ve influido por la estructura de la semana laboral.
+
+- **Comportamiento heterogéneo entre tópicos.**
+La estructura temporal no es homogénea entre los distintos tópicos. Algunos siguen patrones bastante estables y fáciles de anticipar, mientras que otros muestran una elevada variabilidad y la aparición de picos bruscos, lo que complica su modelización y limita el rendimiento predictivo de los modelos.
+
+
+
+#### Anomalías y eventos atípicos
+
+El estudio de anomalías a través de modelos LSTM señala de manera recurrente el 27 de diciembre de 2025 como un valor atípico en todas las series consideradas. En esa fecha se detecta un descenso acusado de la actividad en comparación con lo que cabría esperar según el patrón aprendido por el modelo. Este hallazgo resulta coherente con el impacto de los festivos navideños y apoya la idea de que determinados eventos externos provocan rupturas claras en la evolución temporal de las ofertas de empleo.
+
+
+
+#### Aportaciones del proyecto
+
+En conjunto, los resultados obtenidos permiten extraer varias aportaciones de interés:
+
+- Los resultados reflejan comportamientos razonables con la realidad del mercado laboral, como la menor actividad durante los fines de semana y los cambios marcados que se producen en el mes de diciembre.
+
+- El estudio muestra la utilidad del análisis temporal aplicado a tópicos extraídos de texto, así como la necesidad de complementar los análisis descriptivos con modelos estadísticos para validar los resultados.
+
+- Por último, el trabajo subraya las limitaciones de la predicción en contextos donde los datos son limitados, presentan un alto nivel de ruido y están condicionados por eventos externos poco frecuentes.
+
+
+
+
 ## Conclusiones del proyecto
 
 #### Evaluación crítica

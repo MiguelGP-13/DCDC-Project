@@ -92,3 +92,10 @@ De forma global, el análisis de exogeneidad indica que solo en casos concretos,
 
 ## Conclusiones del proyecto
 
+#### Evaluación crítica
+
+Debido a la condición necesaria de encontrar un datset con componente temporal y textual nuestras opciones se vieron mermaras notablemente, esto seguido del requerimiento de que los datos deberían ser abiertos para garantizar la replicabilidad redujo más aun las opciones disponibles. Por este motivo se seleccionó un dataset de ofertas de empleo, que cumplía los requisitos formales, pero presentaba limitaciones importantes.
+
+El dataset utilizado es muy reducido, lo que afecta a la calidad de los resultados. La escasez de observaciones impide capturar adecuadamente patrones temporales y provoca que la mayoría de los resultados obtenidos parezcan poco fiables. Además, la alta variabilidad de los datos introduce ruido, lo que dificulta afirmar conclusiones sólidas sobre los trabajos realizados.
+
+Como principal mejora proponemos muestrear de forma frecuente los datos para construir series más largas y reducir el impacto del ruido, logrando unos buenos resultados ya que los procesos aplicados transcienden el tamaño dataset y serían aplicables a conjuntos de datos más grandes.
